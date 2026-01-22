@@ -697,16 +697,21 @@ st.markdown("""
         opacity: 1 !important;
     }
 
-    /* Make radio and checkbox labels bigger */
+    /* Make radio and checkbox labels MUCH bigger - 2x increase */
     div[data-testid="stRadio"] label, div[data-testid="stCheckbox"] label {
-        font-size: 1.2rem !important;
-        line-height: 1.6 !important;
-        padding: 0.3rem 0 !important;
+        font-size: 1.5rem !important;
+        line-height: 1.8 !important;
+        padding: 0.5rem 0 !important;
     }
 
     /* Make radio and checkbox text specifically bigger */
     div[data-testid="stRadio"] label span, div[data-testid="stCheckbox"] label span {
-        font-size: 1.2rem !important;
+        font-size: 1.5rem !important;
+    }
+
+    /* Make the actual option text even bigger */
+    div[data-testid="stRadio"] label div, div[data-testid="stCheckbox"] label div {
+        font-size: 1.5rem !important;
     }
 
     /* Hide the Cmd+Enter hint in text areas - but keep textarea visible! */
