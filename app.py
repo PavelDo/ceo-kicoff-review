@@ -936,15 +936,16 @@ def render_question(question):
         responses = {}
         for sub in question["subquestions"]:
             sub_key = sub["key"]
+            sub_label = sub["label"]
             answer_key = get_answer_key(q_id, sub_key)
             widget_key = f"input_{q_id}_{sub_key}"
             init_widget_state(widget_key, answer_key)
 
-            st.markdown(f"**{sub_key})** {sub['label']}")
-            st.text_area(
-                label=f"Answer for {sub_key}",
+            st.markdown(f"**{sub_label}**")
+            st.text_input(
+                label=f"Answer for {sub_label}",
                 label_visibility="collapsed",
-                height=120,
+                placeholder="Enter number...",
                 key=widget_key,
                 on_change=sync_answer,
                 args=(widget_key, answer_key)
