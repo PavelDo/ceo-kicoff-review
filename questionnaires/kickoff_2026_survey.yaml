@@ -1,0 +1,205 @@
+# yaml-language-server: $schema=questions.schema.json
+# ═══════════════════════════════════════════════════════════════════════════════
+# 2026 KICK-OFF SURVEY - Strategy & Execution Confidence
+# ═══════════════════════════════════════════════════════════════════════════════
+# Post-kick-off survey to assess team confidence, strategic clarity, and
+# identify gaps in understanding the 2026 plan (CFO focus, AI-first, revenue targets)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+settings:
+  questionnaire_id: Kickoff_2026_Survey
+  version: "1"
+  title: "2026 Kick-off Survey"
+
+  oidc_identity: true
+  display_mode: one_by_one
+  show_progress_bar: true
+  allow_back_navigation: true
+  show_question_numbers: true
+
+  require_all_answers: false
+  randomize_questions: false
+  auto_advance: false
+  show_balloons: false
+
+  welcome_message: "<strong>Thank you for attending the 2026 Kick-off!</strong><br><br>This survey takes about 5 minutes and helps us identify gaps and ensure everyone is aligned on our 2026 plan.<br><br>Your honest feedback matters - results will be shared with the team next week."
+  thank_you_message: "Thank you for your honest feedback! Results will be shared with the team next week."
+
+intro_questions: []
+
+questions:
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# SECTION 1: Strategic Clarity
+# ═══════════════════════════════════════════════════════════════════════════════
+
+- id: 1
+  title: "If a prospect asks 'What does Keboola do?', which answer would you give them today?"
+  type: radio
+  options:
+  - "We're a data platform that connects, transforms, and orchestrates data for any use case"
+  - "We build Financial Intelligence solutions for CFO offices at enterprise US companies"
+  - "We're an AI-first data operating system that enables business technologists"
+  - "We provide data access for AI platforms and agents"
+  - "We help companies integrate data sources and build dashboards"
+  - "I'm not sure what our primary positioning should be"
+
+- id: 2
+  title: "Our 2026 target is $18M ARR ($4M new logos + $2.5M upsell). Rank these statements from 1 (most agree) to 4 (least agree):"
+  subtitle: "Drag to reorder - top = most agree"
+  type: ranking
+  options:
+  - "We have a clear, repeatable playbook to hit the new logo target"
+  - "Our product is ready to sell into CFO offices today"
+  - "Our team has the right skills and capacity to execute this plan"
+  - "I understand specifically what I need to do differently to contribute"
+
+- id: 3
+  title: "Complete this sentence: 'The biggest gap between our 2026 plan and reality is...'"
+  subtitle: "1-2 sentences"
+  type: text_area
+  placeholder: "Type your answer here..."
+  rows: 3
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# SECTION 2: Speed & Execution
+# ═══════════════════════════════════════════════════════════════════════════════
+
+- id: 4
+  title: "Think about your last project. How many teams/people had to approve or touch it before shipping?"
+  type: radio
+  options:
+  - "0-1 (mostly autonomous)"
+  - "2-3 (some coordination needed)"
+  - "4-5 (significant handoffs)"
+  - "6+ (many dependencies)"
+  - "Not applicable to my role"
+
+- id: 5
+  title: "Scenario: A customer urgently needs a custom financial dashboard built. How long would it realistically take us today from request to delivery?"
+  type: radio
+  options:
+  - "Less than 1 week"
+  - "1-2 weeks"
+  - "3-4 weeks"
+  - "1-2 months"
+  - "2+ months"
+
+- id: 6
+  title: "What would make you personally 2x faster at your job?"
+  subtitle: "Select up to 2"
+  type: checkbox
+  options:
+  - "Better AI tooling (Claude Code, etc.)"
+  - "Fewer meetings/approvals"
+  - "Clearer priorities and decision-making authority"
+  - "Better documentation/knowledge sharing"
+  - "More people on my team"
+  - "Different team structure/less handoffs"
+  - "Nothing, I'm already working at capacity"
+
+- id: 6b
+  title: "If you selected 'Other' or have additional thoughts, explain here:"
+  subtitle: "Optional"
+  type: text_area
+  placeholder: "Your answer..."
+  rows: 2
+
+- id: 7
+  title: "My team is already working like we're in an AI-first company"
+  type: linear_scale
+  min: 1
+  max: 5
+  min_label: "Strongly Disagree"
+  max_label: "Strongly Agree"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# SECTION 3: Product & Revenue Focus
+# ═══════════════════════════════════════════════════════════════════════════════
+
+- id: 8
+  title: "If you had to allocate 100 points across these Q1 priorities, how would you split them?"
+  subtitle: "Enter numbers that sum to 100"
+  type: compound
+  questions:
+  - title: "Financial Intelligence product (CFO solution)"
+    placeholder: "e.g., 40"
+  - title: "AI/KAI improvements and adoption"
+    placeholder: "e.g., 25"
+  - title: "Customer expansion/upsell features"
+    placeholder: "e.g., 20"
+  - title: "Platform performance/reliability"
+    placeholder: "e.g., 10"
+  - title: "Other use cases/flexibility"
+    placeholder: "e.g., 5"
+
+- id: 9
+  title: "Which of these concerns you MOST about hitting our revenue targets?"
+  subtitle: "Pick ONE"
+  type: radio
+  options:
+  - "Our product isn't differentiated enough for CFO offices"
+  - "We're trying to do too many things at once"
+  - "We don't have enough experienced sellers/closers"
+  - "The market isn't ready for this solution"
+  - "Our pricing/packaging isn't right"
+  - "We're moving too slowly to capitalize on opportunities"
+  - "Internal alignment and communication"
+
+- id: 9b
+  title: "If you selected 'Other' or want to elaborate, explain here:"
+  subtitle: "Optional"
+  type: text_area
+  placeholder: "Your concern..."
+  rows: 2
+
+- id: 10a
+  title: "A prospect says: 'Why shouldn't we just build this ourselves or use Snowflake + Fivetran + Tableau?'"
+  subtitle: "Part A: How confident are you in our answer?"
+  type: radio
+  options:
+  - "Very confident - I know exactly how we win this"
+  - "Somewhat confident - I have a general idea"
+  - "Not confident - I'm not sure how we differentiate"
+  - "Not applicable to my role"
+
+- id: 10b
+  title: "Now write your answer - how/why do we win this?"
+  subtitle: "Explain our differentiation. If you're not sure, write 'I don't know'"
+  type: text_area
+  placeholder: "Your answer..."
+  rows: 4
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# SECTION 4: Team & Culture
+# ═══════════════════════════════════════════════════════════════════════════════
+
+- id: 11
+  title: "Leadership is aligned and moving in the same direction on the 2026 plan"
+  type: linear_scale
+  min: 1
+  max: 5
+  min_label: "Strongly Disagree"
+  max_label: "Strongly Agree"
+
+- id: 12
+  title: "What's ONE thing you will personally DO DIFFERENTLY in the next 30 days based on the kick-off?"
+  subtitle: "Be specific"
+  type: text_area
+  placeholder: "Your specific action..."
+  rows: 3
+
+- id: 13
+  title: "On a scale of 1-10, how likely are you to recommend Keboola as a great place to work to someone in your network?"
+  type: nps
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# SECTION 5: Final Thoughts
+# ═══════════════════════════════════════════════════════════════════════════════
+
+- id: 14
+  title: "If you could give Pavel and leadership ONE piece of advice or flag ONE concern about the 2026 plan, what would it be?"
+  subtitle: "Be candid"
+  type: text_area
+  placeholder: "Your advice or concern..."
+  rows: 4
