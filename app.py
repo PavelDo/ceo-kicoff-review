@@ -1538,6 +1538,28 @@ def render_review_page(authenticated_user):
     st.markdown("## Review Your Answers")
     st.markdown("Please review your answers before submitting. Click on any question to edit.")
 
+    # Show respondent identity box
+    oidc_identity = SETTINGS.get("oidc_identity", False)
+    if oidc_identity and authenticated_user:
+        st.markdown(f"""
+        <div style='background-color: #e3f2fd; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0; border-left: 4px solid #1976d2;'>
+            <div style='font-size: 1.1rem; margin-bottom: 0.5rem;'><strong>Submitting as:</strong></div>
+            <div style='font-size: 1.3rem; color: #1976d2;'>{authenticated_user}</div>
+        </div>
+        """, unsafe_allow_html=True)
+    else:
+        # Show input fields for name and email if not authenticated
+        st.markdown("### Your Information")
+        col1, col2 = st.columns(2)
+        with col1:
+            name = st.text_input("Full Name", key="review_name", value=st.session_state.answers.get("_name", ""))
+            if name:
+                st.session_state.answers["_name"] = name
+        with col2:
+            email = st.text_input("Email", key="review_email", value=st.session_state.answers.get("_email", ""))
+            if email:
+                st.session_state.answers["_email"] = email
+
     # Submit button at the top
     st.markdown("<br>", unsafe_allow_html=True)
     col1, col2, col3 = st.columns([1, 2, 1])
