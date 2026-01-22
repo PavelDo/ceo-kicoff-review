@@ -683,6 +683,24 @@ st.markdown("""
         text-align: center !important;
         white-space: nowrap !important;
     }
+
+    /* Make input text bigger */
+    textarea, input[type="text"], input[type="number"] {
+        font-size: 1.1rem !important;
+    }
+
+    /* Make radio and checkbox labels bigger */
+    div[data-testid="stRadio"] label, div[data-testid="stCheckbox"] label {
+        font-size: 1.05rem !important;
+    }
+
+    /* Hide the Cmd+Enter hint in text areas */
+    textarea::placeholder {
+        opacity: 1 !important;
+    }
+    div[data-baseweb="textarea"] > div:last-child {
+        display: none !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 

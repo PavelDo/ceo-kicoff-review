@@ -116,16 +116,16 @@ questions:
   subtitle: "Enter numbers that sum to 100"
   type: compound
   subquestions:
-  - title: "Financial Intelligence product (CFO solution)"
-    placeholder: "e.g., 40"
-  - title: "AI/KAI improvements and adoption"
-    placeholder: "e.g., 25"
-  - title: "Customer expansion/upsell features"
-    placeholder: "e.g., 20"
-  - title: "Platform performance/reliability"
-    placeholder: "e.g., 10"
-  - title: "Other use cases/flexibility"
-    placeholder: "e.g., 5"
+  - key: cfo_solution
+    label: "Financial Intelligence product (CFO solution)"
+  - key: ai_kai
+    label: "AI/KAI improvements and adoption"
+  - key: upsell_features
+    label: "Customer expansion/upsell features"
+  - key: platform_perf
+    label: "Platform performance/reliability"
+  - key: other_cases
+    label: "Other use cases/flexibility"
 
 - id: 9
   title: "Which of these concerns you MOST about hitting our revenue targets?"
