@@ -709,13 +709,8 @@ st.markdown("""
         font-size: 1.2rem !important;
     }
 
-    /* Hide the Cmd+Enter hint in text areas */
-    textarea::placeholder {
-        opacity: 1 !important;
-    }
-    div[data-baseweb="textarea"] > div:last-child {
-        display: none !important;
-    }
+    /* Hide the Cmd+Enter hint in text areas - but keep textarea visible! */
+    /* Removed aggressive hiding rule that was hiding the entire textarea */
 </style>
 """, unsafe_allow_html=True)
 
