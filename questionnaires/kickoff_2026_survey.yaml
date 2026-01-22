@@ -48,6 +48,7 @@ questions:
   title: "Our 2026 target is $18M ARR ($4M new logos + $2.5M upsell). Rank these statements from 1 (most agree) to 4 (least agree):"
   subtitle: "Drag to reorder - top = most agree"
   type: ranking
+  randomize_options: true
   options:
   - "We have a clear, repeatable playbook to hit the new logo target"
   - "Our product is ready to sell into CFO offices today"
@@ -98,13 +99,6 @@ questions:
   - "Different team structure/less handoffs"
   - "Nothing, I'm already working at capacity"
 
-- id: 6b
-  title: "If you selected 'Other' or have additional thoughts, explain here:"
-  subtitle: "Optional"
-  type: text_area
-  placeholder: "Your answer..."
-  rows: 2
-
 - id: 7
   title: "My team is already working like we're in an AI-first company"
   type: linear_scale
@@ -121,7 +115,7 @@ questions:
   title: "If you had to allocate 100 points across these Q1 priorities, how would you split them?"
   subtitle: "Enter numbers that sum to 100"
   type: compound
-  questions:
+  subquestions:
   - title: "Financial Intelligence product (CFO solution)"
     placeholder: "e.g., 40"
   - title: "AI/KAI improvements and adoption"
@@ -145,13 +139,6 @@ questions:
   - "Our pricing/packaging isn't right"
   - "We're moving too slowly to capitalize on opportunities"
   - "Internal alignment and communication"
-
-- id: 9b
-  title: "If you selected 'Other' or want to elaborate, explain here:"
-  subtitle: "Optional"
-  type: text_area
-  placeholder: "Your concern..."
-  rows: 2
 
 - id: 10a
   title: "A prospect says: 'Why shouldn't we just build this ourselves or use Snowflake + Fivetran + Tableau?'"

@@ -871,7 +871,7 @@ def render_question(question):
 
     # Question header
     st.markdown(f"<span class='question-number'>Question {q_id} of {TOTAL_QUESTIONS}</span>", unsafe_allow_html=True)
-    st.markdown(f"## {question['title']}")
+    st.markdown(f"<h1 style='font-size: 2.2rem; margin-top: 0.5rem; margin-bottom: 0.5rem;'>{question['title']}</h1>", unsafe_allow_html=True)
 
     if "subtitle" in question:
         st.markdown(f"<p class='subtitle'>{question['subtitle']}</p>", unsafe_allow_html=True)
@@ -2934,21 +2934,57 @@ def main():
     # Navigation
     render_navigation(authenticated_user)
 
-    # Question dots navigation
+    # Octopus progress indicator
     st.markdown("<br>", unsafe_allow_html=True)
-    cols = st.columns(TOTAL_QUESTIONS)
-    for i, col in enumerate(cols):
-        with col:
-            q_id = QUESTIONS[i]["id"]
-            if i == st.session_state.current_step:
-                st.markdown("●")
-            elif st.session_state.answers.get(f"q{q_id}") or any(
-                st.session_state.answers.get(f"q{q_id}_{k}")
-                for k in ["a", "b", "c"]
-            ):
-                st.markdown("○")
-            else:
-                st.markdown("·")
+
+    # Build SVG with octopus arms connecting the dots
+    current_step = st.session_state.current_step
+    svg_width = 100 * TOTAL_QUESTIONS
+    svg_height = 60
+    dot_radius = 8
+    y_center = 30
+
+    svg_parts = [f'<svg width="100%" height="{svg_height}" viewBox="0 0 {svg_width} {svg_height}" xmlns="http://www.w3.org/2000/svg">']
+
+    # Draw connecting lines (tentacle arms) for completed questions
+    for i in range(TOTAL_QUESTIONS):
+        q_id = QUESTIONS[i]["id"]
+        x = 50 + (i * 100)
+
+        # Check if question is answered
+        is_answered = st.session_state.answers.get(f"q{q_id}") or any(
+            st.session_state.answers.get(f"q{q_id}_{k}")
+            for k in ["a", "b", "c"]
+        )
+
+        # Draw wavy tentacle line to next dot if current or previous is answered
+        if i < TOTAL_QUESTIONS - 1 and (is_answered or i < current_step):
+            x1, x2 = x, x + 100
+            # Wavy tentacle path
+            svg_parts.append(f'<path d="M {x1} {y_center} Q {x1+25} {y_center-15}, {x1+50} {y_center} T {x2} {y_center}" stroke="#4CAF50" stroke-width="3" fill="none" opacity="0.6"/>')
+
+    # Draw dots
+    for i in range(TOTAL_QUESTIONS):
+        q_id = QUESTIONS[i]["id"]
+        x = 50 + (i * 100)
+
+        is_answered = st.session_state.answers.get(f"q{q_id}") or any(
+            st.session_state.answers.get(f"q{q_id}_{k}")
+            for k in ["a", "b", "c"]
+        )
+
+        if i == current_step:
+            # Current question - pulsing dot
+            svg_parts.append(f'<circle cx="{x}" cy="{y_center}" r="{dot_radius}" fill="#4CAF50"><animate attributeName="r" values="{dot_radius};{dot_radius+3};{dot_radius}" dur="1s" repeatCount="indefinite"/></circle>')
+        elif is_answered:
+            # Answered question - filled dot
+            svg_parts.append(f'<circle cx="{x}" cy="{y_center}" r="{dot_radius}" fill="#4CAF50" opacity="0.7"/>')
+        else:
+            # Unanswered question - empty dot
+            svg_parts.append(f'<circle cx="{x}" cy="{y_center}" r="{dot_radius}" fill="none" stroke="#CCCCCC" stroke-width="2"/>')
+
+    svg_parts.append('</svg>')
+    st.markdown(''.join(svg_parts), unsafe_allow_html=True)
 
 
 if __name__ == "__main__":
