@@ -691,7 +691,14 @@ st.markdown("""
 
     /* Make radio and checkbox labels bigger */
     div[data-testid="stRadio"] label, div[data-testid="stCheckbox"] label {
-        font-size: 1.05rem !important;
+        font-size: 1.2rem !important;
+        line-height: 1.6 !important;
+        padding: 0.3rem 0 !important;
+    }
+
+    /* Make radio and checkbox text specifically bigger */
+    div[data-testid="stRadio"] label span, div[data-testid="stCheckbox"] label span {
+        font-size: 1.2rem !important;
     }
 
     /* Hide the Cmd+Enter hint in text areas */
