@@ -822,6 +822,9 @@ def init_session_state(authenticated_user: str | None):
     if "has_existing_answers" not in st.session_state:
         st.session_state.has_existing_answers = False
 
+    if "results_authenticated" not in st.session_state:
+        st.session_state.results_authenticated = False
+
     # Check for existing answers from Keboola (only once per session)
     if not st.session_state.answers_loaded and authenticated_user:
         logger.info(f"Checking for existing answers for {authenticated_user}...")
@@ -2277,6 +2280,50 @@ def render_aggrid_table(df: pd.DataFrame):
     return grid_response
 
 
+def render_password_protected_dashboard():
+    """Render password-protected dashboard for public apps."""
+    st.markdown("## View Survey Results")
+
+    # Get password from environment variable
+    admin_password = os.environ.get("RESULTS_PASSWORD", "")
+
+    if not admin_password:
+        st.error("Results viewing is not configured. Set RESULTS_PASSWORD environment variable.")
+        if st.button("← Back to Survey"):
+            st.query_params.clear()
+            st.rerun()
+        return
+
+    # Check if user is authenticated in session
+    if not st.session_state.get("results_authenticated", False):
+        st.markdown("Enter password to view survey results:")
+
+        password_input = st.text_input("Password", type="password", key="password_input")
+
+        col1, col2 = st.columns([1, 3])
+        with col1:
+            if st.button("Submit", type="primary"):
+                if password_input == admin_password:
+                    st.session_state.results_authenticated = True
+                    st.rerun()
+                else:
+                    st.error("Incorrect password")
+        with col2:
+            if st.button("← Back to Survey"):
+                st.query_params.clear()
+                st.rerun()
+        return
+
+    # User is authenticated, show dashboard
+    render_ceo_dashboard()
+
+    # Logout button
+    if st.button("🔒 Logout from Results View"):
+        st.session_state.results_authenticated = False
+        st.query_params.clear()
+        st.rerun()
+
+
 def render_ceo_dashboard():
     """Render CEO dashboard showing all employee answers."""
     st.markdown("## All Responses Dashboard")
@@ -2963,6 +3010,12 @@ def main():
     # Evaluators get the dashboard view instead of the questionnaire
     if is_evaluator(authenticated_user):
         render_ceo_dashboard()
+        return
+
+    # For public apps: Allow access to dashboard via password
+    # Use query param ?results=1 to show password prompt
+    if st.query_params.get("results") == "1":
+        render_password_protected_dashboard()
         return
 
     # Check if already submitted
