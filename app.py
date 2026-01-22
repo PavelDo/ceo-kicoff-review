@@ -954,17 +954,16 @@ def render_question(question):
             sub_label = sub["label"]
             answer_key = get_answer_key(q_id, sub_key)
             widget_key = f"input_{q_id}_{sub_key}"
-            init_widget_state(widget_key, answer_key)
 
             st.markdown(f"**{sub_label}**")
 
             # Use number_input for 100-point allocation questions
             if "100" in question.get("subtitle", "").lower() or "100" in question.get("title", "").lower():
-                # Number input with validation
-                current_val = st.session_state.answers.get(answer_key, "")
+                # Number input with validation - don't use init_widget_state for numbers
+                current_val = st.session_state.answers.get(answer_key, "0")
                 try:
                     current_num = float(current_val) if current_val else 0.0
-                except ValueError:
+                except (ValueError, TypeError):
                     current_num = 0.0
 
                 val = st.number_input(
@@ -974,14 +973,15 @@ def render_question(question):
                     max_value=100.0,
                     value=current_num,
                     step=1.0,
-                    key=widget_key,
-                    on_change=sync_answer,
-                    args=(widget_key, answer_key)
+                    format="%.0f",
+                    key=widget_key
                 )
-                st.session_state.answers[answer_key] = str(val) if val else ""
-                responses[sub_key] = str(val) if val else ""
+                # Store as string for consistency
+                st.session_state.answers[answer_key] = str(int(val))
+                responses[sub_key] = str(int(val))
             else:
                 # Regular text input for other compound questions
+                init_widget_state(widget_key, answer_key)
                 st.text_input(
                     label=f"Answer for {sub_label}",
                     label_visibility="collapsed",
