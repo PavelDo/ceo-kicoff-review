@@ -687,6 +687,14 @@ st.markdown("""
     /* Make input text bigger */
     textarea, input[type="text"], input[type="number"] {
         font-size: 1.1rem !important;
+        min-height: 100px !important;
+    }
+
+    /* Ensure text areas are visible */
+    textarea {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
 
     /* Make radio and checkbox labels bigger */
