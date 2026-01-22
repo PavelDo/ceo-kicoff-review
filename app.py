@@ -1507,6 +1507,14 @@ def render_review_page(authenticated_user):
     """Render review page with all answers before final submit."""
     st.markdown("## Review Your Answers")
     st.markdown("Please review your answers before submitting. Click on any question to edit.")
+
+    # Submit button at the top
+    st.markdown("<br>", unsafe_allow_html=True)
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        if st.button("✓ Submit Answers", use_container_width=True, type="primary", key="submit_top"):
+            submit_assessment(authenticated_user)
+
     st.markdown("---")
 
     # Show all answers
