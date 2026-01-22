@@ -3147,6 +3147,14 @@ def main():
     svg_parts.append('</svg>')
     st.markdown(''.join(svg_parts), unsafe_allow_html=True)
 
+    # Footer with Results link
+    st.markdown("<br><br>", unsafe_allow_html=True)
+    st.markdown("""
+    <div style='text-align: center; padding: 1rem; margin-top: 2rem; border-top: 1px solid #e0e0e0;'>
+        <a href='?results=1' style='color: #666; text-decoration: none; font-size: 0.9rem;'>📊 Results</a>
+    </div>
+    """, unsafe_allow_html=True)
+
 
 if __name__ == "__main__":
     main()
