@@ -360,9 +360,6 @@ def load_all_answers_from_keboola(progress_callback=None) -> list[dict]:
                     user_email = tag
                     break
 
-            if not user_email:
-                continue
-
             try:
                 # Download to temp directory
                 with tempfile.TemporaryDirectory() as tmp_dir:
@@ -371,13 +368,29 @@ def load_all_answers_from_keboola(progress_callback=None) -> list[dict]:
 
                     with open(local_path, "r") as f:
                         data = json.load(f)
-                        data["_user_email"] = user_email
+
+                        # Get email from tag, or from file content, or use filename
+                        if user_email:
+                            data["_user_email"] = user_email
+                        elif data.get("email") and data["email"] != "anonymous":
+                            # Use email from file content if available
+                            data["_user_email"] = data["email"]
+                        elif data.get("answers", {}).get("_email"):
+                            # Check if email was collected in answers
+                            data["_user_email"] = data["answers"]["_email"]
+                        elif data.get("answers", {}).get("_name"):
+                            # Use name if available
+                            data["_user_email"] = data["answers"]["_name"]
+                        else:
+                            # Fall back to filename
+                            data["_user_email"] = file_name.replace(".json", "")
+
                         all_answers.append(data)
-                        logger.info(f"Loaded answers from {user_email}")
+                        logger.info(f"Loaded answers from {data.get('_user_email', 'unknown')}")
 
                         # Report progress
                         if progress_callback:
-                            progress_callback(idx + 1, total_files, user_email)
+                            progress_callback(idx + 1, total_files, data.get("_user_email", "unknown"))
             except Exception as e:
                 logger.error(f"Error loading file {file_id}: {e}")
                 continue
