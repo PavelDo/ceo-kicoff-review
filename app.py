@@ -953,6 +953,25 @@ def render_question(question):
             sync_answer(widget_key, answer_key)
             responses[sub_key] = st.session_state.get(widget_key, "")
             st.markdown("<br>", unsafe_allow_html=True)
+
+        # Calculate total for validation (if this is a 100-point allocation)
+        if "100" in question.get("subtitle", "").lower() or "100" in question.get("title", "").lower():
+            total = 0
+            for sub_key in [s["key"] for s in question["subquestions"]]:
+                val_str = st.session_state.answers.get(get_answer_key(q_id, sub_key), "")
+                try:
+                    total += float(val_str) if val_str else 0
+                except ValueError:
+                    pass
+
+            if total > 0:
+                if total == 100:
+                    st.success(f"✓ Total: {int(total)} points")
+                elif total < 100:
+                    st.warning(f"⚠ Total: {int(total)} points (need {100 - int(total)} more)")
+                else:
+                    st.error(f"✗ Total: {int(total)} points (over by {int(total - 100)})")
+
         return responses
 
     elif q_type == "radio":
