@@ -786,6 +786,9 @@ def init_session_state(authenticated_user: str | None):
     if "editing_from_review" not in st.session_state:
         st.session_state.editing_from_review = False
 
+    if "has_existing_answers" not in st.session_state:
+        st.session_state.has_existing_answers = False
+
     # Check for existing answers from Keboola (only once per session)
     if not st.session_state.answers_loaded and authenticated_user:
         logger.info(f"Checking for existing answers for {authenticated_user}...")
