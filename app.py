@@ -952,16 +952,41 @@ def render_question(question):
             init_widget_state(widget_key, answer_key)
 
             st.markdown(f"**{sub_label}**")
-            st.text_input(
-                label=f"Answer for {sub_label}",
-                label_visibility="collapsed",
-                placeholder="Enter number...",
-                key=widget_key,
-                on_change=sync_answer,
-                args=(widget_key, answer_key)
-            )
-            sync_answer(widget_key, answer_key)
-            responses[sub_key] = st.session_state.get(widget_key, "")
+
+            # Use number_input for 100-point allocation questions
+            if "100" in question.get("subtitle", "").lower() or "100" in question.get("title", "").lower():
+                # Number input with validation
+                current_val = st.session_state.answers.get(answer_key, "")
+                try:
+                    current_num = float(current_val) if current_val else 0.0
+                except ValueError:
+                    current_num = 0.0
+
+                val = st.number_input(
+                    label=f"Answer for {sub_label}",
+                    label_visibility="collapsed",
+                    min_value=0.0,
+                    max_value=100.0,
+                    value=current_num,
+                    step=1.0,
+                    key=widget_key,
+                    on_change=sync_answer,
+                    args=(widget_key, answer_key)
+                )
+                st.session_state.answers[answer_key] = str(val) if val else ""
+                responses[sub_key] = str(val) if val else ""
+            else:
+                # Regular text input for other compound questions
+                st.text_input(
+                    label=f"Answer for {sub_label}",
+                    label_visibility="collapsed",
+                    placeholder="Enter answer...",
+                    key=widget_key,
+                    on_change=sync_answer,
+                    args=(widget_key, answer_key)
+                )
+                sync_answer(widget_key, answer_key)
+                responses[sub_key] = st.session_state.get(widget_key, "")
             st.markdown("<br>", unsafe_allow_html=True)
 
         # Calculate total for validation (if this is a 100-point allocation)
