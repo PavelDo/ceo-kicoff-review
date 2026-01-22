@@ -148,7 +148,6 @@ questions:
   - "Very confident - I know exactly how we win this"
   - "Somewhat confident - I have a general idea"
   - "Not confident - I'm not sure how we differentiate"
-  - "Not applicable to my role"
 
 - id: 10b
   title: "Now write your answer - how/why do we win this?"
