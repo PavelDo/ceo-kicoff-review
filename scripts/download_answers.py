@@ -18,7 +18,7 @@ load_dotenv()
 # Configuration
 KBC_URL = os.environ.get("KBC_URL") or os.environ.get("KBC_API_URL", "https://connection.keboola.com")
 KBC_TOKEN = os.environ.get("KBC_TOKEN") or os.environ.get("KBC_API_TOKEN", "")
-ANSWERS_TAG = os.environ.get("ANSWERS_TAG", "Christmas_Survey_2025_v1")
+ANSWERS_TAG = os.environ.get("ANSWERS_TAG", "Kickoff_2026_Survey_v1")
 
 DATA_DIR = Path(__file__).parent.parent / "data"
 
